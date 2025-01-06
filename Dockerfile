@@ -14,7 +14,9 @@ RUN npm install
 COPY client/ ./
 
 # Change ownership of the working directory to the node user
-RUN chown -R node:node /usr/src/app/client
+RUN mkdir -p /home/node/.npm-global && \
+    chown -R node:node /home/node/.npm-global && \
+    npm config set prefix '/home/node/.npm-global'
 
 # Build the client application
 RUN npm run build
