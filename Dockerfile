@@ -1,4 +1,4 @@
-FROM node:14-alpine AS client-builder
+FROM node:16-alpine AS client-builder
 
 # Create app directory and set permissions
 WORKDIR /usr/src/app/client
@@ -16,7 +16,7 @@ COPY --chown=node:node client/package*.json ./
 
 # Install dependencies and webpack CLI globally
 RUN npm install && \
-    npm install -g webpack webpack-cli
+    npm install -g webpack@5.75.0 webpack-cli@4.10.0
 
 # Copy client source with correct ownership
 COPY --chown=node:node client/ ./
@@ -25,7 +25,7 @@ COPY --chown=node:node client/ ./
 RUN npm run build
 
 # Start fresh for server stage
-FROM node:14-alpine
+FROM node:16-alpine
 
 # Create app directory and set permissions
 WORKDIR /usr/src/app/server
