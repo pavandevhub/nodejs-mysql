@@ -7,11 +7,16 @@ RUN chown -R node:node /usr/src/app/client
 # Switch to node user
 USER node
 
+# Set npm global directory for the node user
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=$PATH:/home/node/.npm-global/bin
+
 # Copy package files with correct ownership
 COPY --chown=node:node client/package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies and webpack CLI globally
+RUN npm install && \
+    npm install -g webpack webpack-cli
 
 # Copy client source with correct ownership
 COPY --chown=node:node client/ ./
