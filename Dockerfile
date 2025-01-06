@@ -13,6 +13,9 @@ RUN npm install
 # Copy the client source code
 COPY client/ ./
 
+# Change ownership of the working directory to the node user
+RUN chown -R node:node /usr/src/app/client
+
 # Build the client application
 RUN npm run build
 
